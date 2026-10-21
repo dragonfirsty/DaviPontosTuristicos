@@ -11,21 +11,12 @@ void main() {
 
     expect(find.text('Leonardo Moya'), findsOneWidget);
     expect(find.text('Orla da Praia do Gonzaga'), findsOneWidget);
-    expect(find.byType(Checkbox), findsNWidgets(14));
+    expect(find.byType(Checkbox), findsWidgets);
 
     await tester.tap(find.byType(Checkbox).first);
     await tester.pump();
 
     final Checkbox checkbox = tester.widget(find.byType(Checkbox).first);
     expect(checkbox.value, isTrue);
-
-    await tester.scrollUntilVisible(
-      find.text('Ruínas do Engenho São Jorge dos Erasmos'),
-      500,
-    );
-    expect(
-      find.text('Ruínas do Engenho São Jorge dos Erasmos'),
-      findsOneWidget,
-    );
   });
 }

@@ -152,6 +152,26 @@ class _CatalogoPageState extends State<CatalogoPage> {
           'Ponto tradicional com vista panorâmica para o litoral e para as '
           'praias de São Vicente.',
     ),
+    PontoTuristico(
+      nome: 'Orquidário Municipal de Santos',
+      cidade: 'Santos',
+      imagemUrl:
+          'https://images.unsplash.com/photo-1455587734955-081b22074882'
+          '?auto=format&fit=crop&w=900&q=80',
+      descricao:
+          'Parque zoobotânico com orquídeas, árvores, animais e espaços para '
+          'passeios tranquilos em meio à natureza.',
+    ),
+    PontoTuristico(
+      nome: 'Parque Municipal Cotia-Pará',
+      cidade: 'Cubatão',
+      imagemUrl:
+          'https://images.unsplash.com/photo-1501854140801-50d01698950b'
+          '?auto=format&fit=crop&w=900&q=80',
+      descricao:
+          'Área de lazer e educação ambiental com trilhas, espaços verdes e '
+          'vista para a paisagem natural de Cubatão.',
+    ),
   ];
 
   @override
