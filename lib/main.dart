@@ -17,6 +17,7 @@ class Principal extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFFF4F8F7),
       ),
       home: const CatalogoPage(),
     );
@@ -121,12 +122,43 @@ class _CatalogoPageState extends State<CatalogoPage> {
           'Sítio arqueológico que preserva parte de um dos primeiros engenhos '
           'de açúcar do Brasil.',
     ),
+    PontoTuristico(
+      nome: 'Jardim Botânico Chico Mendes',
+      cidade: 'Santos',
+      imagemUrl:
+          'https://images.unsplash.com/photo-1497250681960-ef046c08a56e'
+          '?auto=format&fit=crop&w=900&q=80',
+      descricao:
+          'Área verde com árvores, jardins e espaços para caminhadas, '
+          'lazer e contato com a natureza.',
+    ),
+    PontoTuristico(
+      nome: 'Museu do Café',
+      cidade: 'Santos',
+      imagemUrl:
+          'https://images.unsplash.com/photo-1445116572660-236099ec97a0'
+          '?auto=format&fit=crop&w=900&q=80',
+      descricao:
+          'Museu instalado no centro histórico de Santos, que conta a '
+          'importância do café para a história do Brasil.',
+    ),
+    PontoTuristico(
+      nome: 'Ilha Porchat',
+      cidade: 'São Vicente',
+      imagemUrl:
+          'https://images.unsplash.com/photo-1500534623283-312aade485b7'
+          '?auto=format&fit=crop&w=900&q=80',
+      descricao:
+          'Ponto tradicional com vista panorâmica para o litoral e para as '
+          'praias de São Vicente.',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -134,13 +166,58 @@ class _CatalogoPageState extends State<CatalogoPage> {
             Text('Leonardo Moya', style: TextStyle(fontSize: 12)),
           ],
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: const Color(0xFF00695C),
+        foregroundColor: Colors.white,
+        elevation: 0,
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: _pontos.length,
-        itemBuilder: (context, index) {
-          return _buildPontoCard(_pontos[index]);
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double cardWidth = constraints.maxWidth >= 820
+              ? (constraints.maxWidth - 52) / 2
+              : constraints.maxWidth;
+
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1120),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Explore a Baixada Santista',
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              color: const Color(0xFF123A35),
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Descubra lugares especiais, salve seus favoritos '
+                        'e acompanhe suas visitas.',
+                        style: Theme.of(context).textTheme.bodyLarge
+                            ?.copyWith(color: Colors.blueGrey.shade700),
+                      ),
+                      const SizedBox(height: 22),
+                      Wrap(
+                        spacing: 20,
+                        runSpacing: 18,
+                        children: [
+                          for (final ponto in _pontos)
+                            SizedBox(
+                              width: cardWidth,
+                              child: _buildPontoCard(ponto),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
@@ -148,16 +225,20 @@ class _CatalogoPageState extends State<CatalogoPage> {
 
   Widget _buildPontoCard(PontoTuristico ponto) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
       child: Card(
         clipBehavior: Clip.antiAlias,
-        elevation: 3,
+        elevation: 1,
+        shadowColor: Colors.teal.withValues(alpha: 0.18),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: Colors.teal.shade50),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
               ponto.imagemUrl,
-              height: 190,
+              height: 205,
               width: double.infinity,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
@@ -170,39 +251,68 @@ class _CatalogoPageState extends State<CatalogoPage> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
+              padding: const EdgeInsets.fromLTRB(18, 16, 18, 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     ponto.nome,
-                    style: Theme.of(context).textTheme.titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: const Color(0xFF123A35),
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.location_on, size: 18),
+                      Icon(
+                        Icons.location_on_rounded,
+                        color: Colors.teal.shade700,
+                        size: 18,
+                      ),
                       const SizedBox(width: 4),
-                      Text(ponto.cidade),
+                      Text(
+                        ponto.cidade,
+                        style: TextStyle(
+                          color: Colors.teal.shade800,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     ponto.descricao,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.blueGrey.shade700,
+                      height: 1.4,
+                    ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
               child: Row(
                 children: [
                   Expanded(
                     child: CheckboxListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      tileColor: ponto.favorito
+                          ? Colors.amber.shade50
+                          : Colors.grey.shade50,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
+                      visualDensity: VisualDensity.compact,
+                      activeColor: Colors.amber.shade700,
+                      secondary: Icon(
+                        ponto.favorito
+                            ? Icons.star_rounded
+                            : Icons.star_border_rounded,
+                        color: Colors.amber.shade700,
+                      ),
                       title: const Text('Favorito'),
                       value: ponto.favorito,
                       onChanged: (value) {
@@ -214,8 +324,22 @@ class _CatalogoPageState extends State<CatalogoPage> {
                   ),
                   Expanded(
                     child: CheckboxListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      tileColor: ponto.visitado
+                          ? Colors.teal.shade50
+                          : Colors.grey.shade50,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
+                      visualDensity: VisualDensity.compact,
+                      activeColor: Colors.teal.shade700,
+                      secondary: Icon(
+                        ponto.visitado
+                            ? Icons.check_circle_rounded
+                            : Icons.check_circle_outline_rounded,
+                        color: Colors.teal.shade700,
+                      ),
                       title: const Text('Visitado'),
                       value: ponto.visitado,
                       onChanged: (value) {

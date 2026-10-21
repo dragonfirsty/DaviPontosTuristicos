@@ -11,7 +11,7 @@ void main() {
 
     expect(find.text('Leonardo Moya'), findsOneWidget);
     expect(find.text('Orla da Praia do Gonzaga'), findsOneWidget);
-    expect(find.byType(Checkbox), findsNWidgets(4));
+    expect(find.byType(Checkbox), findsNWidgets(14));
 
     await tester.tap(find.byType(Checkbox).first);
     await tester.pump();
